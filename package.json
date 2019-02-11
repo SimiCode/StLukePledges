@@ -1,0 +1,32 @@
+{
+  "name": "stlukepledges",
+  "version": "1.0.0",
+  "description": "St Luke Chapel church building project pledge tracker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SimiCode/StLukePledges.git"
+  },
+  "keywords": [
+    "Church",
+    "simicode",
+    "Devckla"
+  ],
+  "author": "Edison Abahurire (simicode)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SimiCode/StLukePledges/issues"
+  },
+  "homepage": "https://github.com/SimiCode/StLukePledges#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.11",
+    "node-json2html": "^1.2.0",
+    "pug": "^2.0.3"
+  },
+  "devDependencies": {}
+}
