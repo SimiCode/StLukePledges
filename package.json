@@ -4,7 +4,10 @@
   "description": "St Luke Chapel church building project pledge tracker",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
+},
+  "engines": {
+    "node": "10.9.0"
   },
   "repository": {
     "type": "git",
