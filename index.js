@@ -14,6 +14,7 @@ app.set('view engine', 'pug');
 app.set('views','./views');
 
 var builders = [];
+var port = process.env.PORT || 8080;
 
 
 app.get('/api', function(req, res){
@@ -160,4 +161,7 @@ app.get('/all', function(req, res){
 
 
 
-app.listen(3000);
+// app.listen(3000);
+app.listen(port, function() {
+    console.log('Our app is running on http://localhost:' + port);
+});
