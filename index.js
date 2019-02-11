@@ -4,12 +4,18 @@
 var express = require('express');
 // var mongoose = require('mongoose');
 var json2html = require('node-json2html');
+var bodyParser = require('body-parser');
 
 
 var app = express();
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.set('view engine', 'pug');
 app.set('views','./views');
 
+
+var builders = [];
+var port = process.env.PORT || 8080;
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
@@ -21,18 +27,20 @@ client.connect();
 client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
   if (err) throw err;
   for (let row of res.rows) {
-    console.log(JSON.stringify(row));
+    // console.log(JSON.stringify(row));
+    builders.push(row);
   }
   client.end();
 });
 
 
-var builders = [];
-var port = process.env.PORT || 8080;
-
-
 app.get('/api', function(req, res){
     return res.send("Welcome to St.Luke's Chapel Butabika Pledge tracking API");
+});
+
+app.get('/db', function(req, res){
+	res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify({'builders': builders}));
 });
 
 
