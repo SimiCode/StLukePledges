@@ -2,14 +2,11 @@
 // add database
 
 var express = require('express');
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
+// var mongoose = require('mongoose');
 var json2html = require('node-json2html');
 
 
 var app = express();
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.set('view engine', 'pug');
 app.set('views','./views');
 
@@ -59,10 +56,16 @@ app.get('/check', function(req, res) {
 
 app.post('/check', function(req, res) {
 	// res.setHeader('Content-Type', 'application/json');
-    
-    var contact = req.body.contact;
+    if (req.body==undefined || req.body==null) {
+  			return res.render("nullinput");
+    } else {
+    	var contact = req.body.contact;
+    };
+
+
     var arrayLength = builders.length;
     if (arrayLength > 0) {
+
 		for (var i = 0; i < arrayLength; i++) {
 		    if (builders[i].contact==contact){
 		    // if (builders[i].includes(contact)){
@@ -93,10 +96,12 @@ app.get('/update', function(req, res) {
 });
 
 app.post('/update', function(req, res) {
-	// res.setHeader('Content-Type', 'application/json');
-    
-    var contact = req.body.contact;
-    var paid = parseInt(req.body.paid);
+    if (req.body==undefined || req.body==null) {
+  			return res.render("nullinput");
+    } else {
+    	var contact = req.body.contact;
+    	var paid = parseInt(req.body.paid);
+    };
 
     var arrayLength = builders.length;
     if (arrayLength > 0) {
