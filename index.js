@@ -23,7 +23,6 @@ app.get('/api', function(req, res){
 
 
 app.get('/', function(req, res){
-    // res.send("Welcome to St.Luke's Chapel Butabika Pledge tracking API");
 	return res.render('index');
 });
 
@@ -50,7 +49,6 @@ app.post('/add', function(req, res) {
     
     builders.push(req.body);
 
-    // res.send(name + ' ' + contact + ' ' + pledged + ' ' + paid);
 	return res.render('added');
 });
 
@@ -64,29 +62,30 @@ app.post('/check', function(req, res) {
     
     var contact = req.body.contact;
     var arrayLength = builders.length;
-	for (var i = 0; i < arrayLength; i++) {
-	    if (builders[i].contact==contact){
-	    // if (builders[i].includes(contact)){
-	    	builder = builders[i];
+    if (arrayLength > 0) {
+		for (var i = 0; i < arrayLength; i++) {
+		    if (builders[i].contact==contact){
+		    // if (builders[i].includes(contact)){
+		    	builder = builders[i];
 
-		    var name = builder.name;
-		    var contact = builder.contact;
-		    var pledged = builder.pledged;
-		    var paid = builder.paid;
-	    
-	    	return res.render('checked',  { name: name, contact: contact, pledged: pledged, paid: paid } );
+			    var name = builder.name;
+			    var contact = builder.contact;
+			    var pledged = builder.pledged;
+			    var paid = builder.paid;
+		    
+		    	return res.render('checked',  { name: name, contact: contact, pledged: pledged, paid: paid } );
 
-	    } else {
-	    	// res.render('check');
-	    	// res.redirect(req.get('referer'));
+		    } else {
+		    	// res.render('check');
+		    	// res.redirect(req.get('referer'));
+	    }}} else {
+  			return res.render("notfound");
 	    };
   	
-  	return res.send("Not Found!");
+  		return res.render("notfound");
 
-    // res.send(builder);
-    // res.send(JSON.stringify({'builder': builder}));
 
-}});
+});
 
 
 app.get('/update', function(req, res) {
@@ -100,26 +99,27 @@ app.post('/update', function(req, res) {
     var paid = parseInt(req.body.paid);
 
     var arrayLength = builders.length;
-	for (var i = 0; i < arrayLength; i++) {
-	    if (builders[i].contact==contact){
-	    	builders[i].paid = parseInt(builders[i].paid);
-	    	builders[i].paid += paid;
-	    	paid = builders[i].paid
+    if (arrayLength > 0) {
+		for (var i = 0; i < arrayLength; i++) {
+		    if (builders[i].contact==contact){
+		    	builders[i].paid = parseInt(builders[i].paid);
+		    	builders[i].paid += paid;
+		    	paid = builders[i].paid
 
-		    var name = builders[i].name;
-		    var pledged = builders[i].pledged;
-	    
-	    	return res.render('checked',  { name: name, contact: contact, pledged: pledged, paid: paid } );
+			    var name = builders[i].name;
+			    var pledged = builders[i].pledged;
+		    
+		    	return res.render('checked',  { name: name, contact: contact, pledged: pledged, paid: paid } );
 
-	    } else {
-	    	// res.render('check');
-	    	// res.redirect(req.get('referer'));
-	    }
-  	
-  	return res.send("Not Found!");
-    // res.send(builder);
-    // res.send(JSON.stringify({'builder': builder}));
-}});
+		    } else {
+		    	// res.render('check');
+		    	// res.redirect(req.get('referer'));
+		    }}
+	} else {
+  		return res.render("notfound");
+	};
+    return res.render("notfound");
+});
 
 
 app.get('/all', function(req, res){
@@ -133,12 +133,6 @@ app.get('/all', function(req, res){
 	   	total_paid += builders[i].paid;
 	}
 
-   // return res.send(JSON.stringify({'builders': builders, 
-   // 							'total_pledge': total_pledge,
-   // 							'total_paid': total_paid
-   // 						}));
-
-
 	var transform = {
 					'<>':'tr', 
 					'html': [
@@ -151,14 +145,12 @@ app.get('/all', function(req, res){
      
 	var builders_html = json2html.transform(builders, transform);
 
-    // res.send(builders);
     return res.render('all', {'builders_html': builders_html,
    							'total_pledge': total_pledge,
    							'total_paid': total_paid
 			});
 
 });
-
 
 
 // app.listen(3000);
