@@ -17,22 +17,6 @@ app.set('views','./views');
 var builders = [];
 var port = process.env.PORT || 8080;
 
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,
-});
-client.connect();
-
-
-client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    // console.log(JSON.stringify(row));
-    builders.push(row);
-  }
-  client.end();
-});
-
 
 app.get('/api', function(req, res){
     return res.send("Welcome to St.Luke's Chapel Butabika Pledge tracking API");
@@ -40,6 +24,22 @@ app.get('/api', function(req, res){
 
 app.get('/db', function(req, res){
 	res.setHeader('Content-Type', 'application/json');
+
+	const client = new Client({
+	  connectionString: process.env.DATABASE_URL,
+	  ssl: true,
+	});
+	client.connect();
+
+	client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+	  if (err) throw err;
+	  for (let row of res.rows) {
+	    // console.log(JSON.stringify(row));
+	    builders.push(row);
+	  }
+	  client.end();
+	});
+
     res.send(JSON.stringify({'builders': builders}));
 });
 
